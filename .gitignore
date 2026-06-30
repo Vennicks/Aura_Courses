@@ -1,0 +1,121 @@
+# =============================================================================
+# Unreal Engine .gitignore
+# =============================================================================
+
+# --------------------------
+# Compiled Binaries
+# --------------------------
+Binaries/
+Build/
+Intermediate/
+
+# --------------------------
+# Generated Project Files
+# --------------------------
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+*.xcworkspace
+*.xcodeproj
+.idea/
+
+# --------------------------
+# Visual Studio / Rider Cache
+# --------------------------
+.vs/
+.rider/
+
+# --------------------------
+# Derived / Cached Data
+# --------------------------
+DerivedDataCache/
+Saved/
+.cache/
+
+# --------------------------
+# Packages (auto-downloaded)
+# --------------------------
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+Plugins/*/Build/
+
+# --------------------------
+# Crash Reports & Logs
+# --------------------------
+Saved/Crashes/
+Saved/Logs/
+Saved/StagedBuilds/
+
+# --------------------------
+# Packaged Builds
+# --------------------------
+Releases/
+Packages/
+Staged/
+DistributionPackages/
+
+# --------------------------
+# Config Overrides (user-local)
+# --------------------------
+Saved/Config/
+
+# Keep default configs
+!Config/DefaultEditor.ini
+!Config/DefaultEditorPerProjectUserSettings.ini
+!Config/DefaultEngine.ini
+!Config/DefaultGame.ini
+!Config/DefaultInput.ini
+
+# --------------------------
+# Shader Cache
+# --------------------------
+ShaderCache/
+
+# --------------------------
+# Marketplace / Plugin Content
+# --------------------------
+Plugins/Marketplace/
+
+# --------------------------
+# Asset Thumbnails
+# --------------------------
+*.ithmb
+
+# --------------------------
+# Swap / Temp Files
+# --------------------------
+*.tmp
+*.temp
+*~
+Thumbs.db
+.DS_Store
+
+# --------------------------
+# Automation & Testing
+# --------------------------
+Saved/Automation/
+
+# --------------------------
+# Localization Intermediates
+# --------------------------
+Localization/*/Intermediate/
+
+# --------------------------
+# Courses Assets
+# --------------------------
+Content/Assets/
+# =============================================================================
+# WHAT TO COMMIT (override rules above where needed)
+# =============================================================================
+# Always commit:
+#   Source/           - C++ source code
+#   Content/          - .uasset and .umap files
+#   Config/           - Default* ini files
+#   Plugins/<name>/Source/    - Plugin source code
+#   Plugins/<name>/Content/   - Plugin assets
+#   Plugins/<name>/Resources/ - Plugin icons/resources
+#   <ProjectName>.uproject    - Project descriptor
+# =============================================================================
