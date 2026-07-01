@@ -3,6 +3,16 @@
 	"EngineAssociation": "{D8F7D0C0-472E-E0A8-B34C-BB89F9A4B090}",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "Aura",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",
