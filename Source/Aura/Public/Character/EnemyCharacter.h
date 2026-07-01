@@ -18,6 +18,10 @@ public:
 	AEnemyCharacter();
 
 protected:
+	/** Begin Enemy interface **/
 	virtual void HightlightActor() override;
 	virtual void UnHightlightActor() override;
+	/** End Enemy interface **/
+
+	virtual void BeginPlay() override;
 };
