@@ -35,8 +35,3 @@ void AEnemyCharacter::BeginPlay()
 	
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
-
-void AEnemyCharacter::OnRep_PlayerState()
-{
-	Super::OnRep_PlayerState();
-}
