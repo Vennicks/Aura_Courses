@@ -27,6 +27,7 @@ void AEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* O
 		
 		auto UnConstAS = const_cast<UAttributeSetBase*>(AttributeSet);
 		UnConstAS->SetHealth(AttributeSet->GetHealth() + 10.f);
+		UnConstAS->SetMana(AttributeSet->GetMana() - 10.f);
 		Destroy();
 	}
 }
