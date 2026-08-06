@@ -46,6 +46,22 @@ void APlayerCharacter::InitAbilityActorInfo()
 		AbilitySystemComponent = PS->GetAbilitySystemComponent();
 		AttributeSet = PS->GetAttributeSet();
 
+		if (auto ASCB = Cast<UAbilitySystemComponentBase>(AbilitySystemComponent))
+		{
+			ASCB->AbilityActorInfoSet();
+		}
+		else
+		{
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to cast AbilitySystemComponent to UAbilitySystemComponentBase"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Failed to cast AbilitySystemComponent to UAbilitySystemComponentBase"));
+			}
+		}
+
 		if (auto PC = Cast<APlayerControllerBase>(GetController()))
 		{
 			if(auto HUD = Cast<ABaseHUD>(PC->GetHUD()))

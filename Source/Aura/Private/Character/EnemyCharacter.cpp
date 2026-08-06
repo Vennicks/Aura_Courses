@@ -32,6 +32,24 @@ void AEnemyCharacter::UnHightlightActor()
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	InitAbilityActorInfo();
+}
+
+void AEnemyCharacter::InitAbilityActorInfo()
+{
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	if (auto ASCB = Cast<UAbilitySystemComponentBase>(AbilitySystemComponent))
+	{
+		ASCB->AbilityActorInfoSet();
+	}
+	else
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to cast AbilitySystemComponent to UAbilitySystemComponentBase"));
+		} else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to cast AbilitySystemComponent to UAbilitySystemComponentBase"));
+		}
+	}
 }
