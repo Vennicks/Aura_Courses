@@ -17,6 +17,8 @@ AEnemyCharacter::AEnemyCharacter()
 	AttributeSet = CreateDefaultSubobject<UAttributeSetBase>("AttributeSet");
 }
 
+#pragma region Interfaces Implementation
+#pragma region Enemy interface
 void AEnemyCharacter::HightlightActor()
 {
 	GetMesh()->SetRenderCustomDepth(true);
@@ -28,6 +30,15 @@ void AEnemyCharacter::UnHightlightActor()
 	GetMesh()->SetRenderCustomDepth(false);
 	WeaponMesh->SetRenderCustomDepth(false);
 }
+#pragma endregion
+
+#pragma region Combat interface
+int32 AEnemyCharacter::GetCharacterLevel()
+{
+	return Level;
+}
+#pragma endregion
+#pragma endregion
 
 void AEnemyCharacter::BeginPlay()
 {

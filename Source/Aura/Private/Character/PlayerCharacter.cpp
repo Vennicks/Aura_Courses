@@ -22,6 +22,25 @@ APlayerCharacter::APlayerCharacter()
 	bUseControllerRotationRoll = false;
 }
 
+int32 APlayerCharacter::GetCharacterLevel()
+{
+	if (auto PS = GetPlayerState<APlayerStateBase>())
+	{
+		return PS->GetCharacterLevel();
+	} else
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to get the playerstate"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to get the playerstate"));
+		}
+	}
+	return 1;
+}
+
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
@@ -69,5 +88,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 				HUD->InitOverlay(PC, PS, AbilitySystemComponent, AttributeSet);
 			}
 		}
+		InitializeDefaultsAttributes();
 	}
 }
