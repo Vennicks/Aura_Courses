@@ -5,11 +5,28 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
+#include "GameplayTagsHolder.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
 
 UAttributeSetBase::UAttributeSetBase()
 {
+	auto TagHolder = FGameplayTagsHolder::Get();
+	TagsToAttributes.Add(TagHolder.Attributes_Primary_Strength, GetStrengthAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Primary_Resilience, GetResilienceAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Primary_Vigor, GetVigorAttribute);
+
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_Armor, GetArmorAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_BlockChance, GetBlockChanceAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_CritChance, GetCritChanceAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_CritDamage, GetCritDamageAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_CritResistence, GetCritResistenceAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_HealthRegen, GetHealthRegenerationAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_ManaRegen, GetManaRegenerationAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_MaxMana, GetMaxManaAttribute);
+	TagsToAttributes.Add(TagHolder.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
 }
 
 void UAttributeSetBase::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)

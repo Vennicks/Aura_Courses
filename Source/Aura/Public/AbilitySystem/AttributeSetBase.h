@@ -47,6 +47,10 @@ struct FEffectProperties
 	ACharacter* TargetCharacter = nullptr;
 };
 
+template<class T>
+using TStaticFunctPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
+
 UCLASS()
 class AURA_API UAttributeSetBase : public UAttributeSet
 {
@@ -57,6 +61,8 @@ public:
 
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
+
+	TMap<FGameplayTag, TStaticFunctPtr<FGameplayAttribute()>> TagsToAttributes;
 
 #pragma region Attributes Definition
 #pragma  region Vital Attributes Definition

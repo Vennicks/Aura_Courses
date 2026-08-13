@@ -1,0 +1,39 @@
+
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+
+/**
+ * 
+ */
+
+struct FGameplayTagsHolder
+{
+public:
+	static const FGameplayTagsHolder& Get() { return GameplayTags; };
+	static void InitializeNativeGameplayTags();
+
+	FGameplayTag Attributes_Primary_Strength;
+	FGameplayTag Attributes_Primary_Vigor;
+	FGameplayTag Attributes_Primary_Intelligence;
+	FGameplayTag Attributes_Primary_Resilience;
+
+	FGameplayTag Attributes_Secondary_MaxHealth;
+	FGameplayTag Attributes_Secondary_MaxMana;
+
+	FGameplayTag Attributes_Secondary_Armor;
+	FGameplayTag Attributes_Secondary_ArmorPenetration;
+	FGameplayTag Attributes_Secondary_BlockChance;
+	FGameplayTag Attributes_Secondary_CritChance;
+	FGameplayTag Attributes_Secondary_CritDamage;
+	FGameplayTag Attributes_Secondary_CritResistence;
+	FGameplayTag Attributes_Secondary_HealthRegen;
+	FGameplayTag Attributes_Secondary_ManaRegen;
+
+protected:
+
+private:
+	static FGameplayTagsHolder GameplayTags;
+};
