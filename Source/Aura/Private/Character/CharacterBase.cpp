@@ -4,6 +4,7 @@
 #include "Character/CharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/AbilitySystemComponentBase.h"
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -30,6 +31,11 @@ void ACharacterBase::InitAbilityActorInfo()
 {
 }
 
+FVector ACharacterBase::GetCombatSocketLocation()
+{
+	return WeaponMesh->GetSocketLocation(WeaponTipSocket);
+}
+
 void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffect, float Level) const
 {
 	check(GetAbilitySystemComponent());
@@ -45,4 +51,13 @@ void ACharacterBase::InitializeDefaultsAttributes() const
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1);
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1);
+}
+
+void ACharacterBase::InitializeAbilities() const
+{
+	if (!HasAuthority())
+		return;
+
+	UAbilitySystemComponentBase* ASC = CastChecked<UAbilitySystemComponentBase>(GetAbilitySystemComponent());
+	ASC->AddAbilities(StartupAbilities);
 }

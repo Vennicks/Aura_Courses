@@ -47,6 +47,7 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 
 	//GAS Init server
 	InitAbilityActorInfo();
+	InitializeAbilities();
 }
 
 void APlayerCharacter::OnRep_PlayerState()

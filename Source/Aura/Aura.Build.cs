@@ -15,8 +15,9 @@ public class Aura : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"EnhancedInput", 
-			"GameplayAbilities"
-		});
+			"GameplayAbilities",
+			"NavigationSystem"
+        });
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{

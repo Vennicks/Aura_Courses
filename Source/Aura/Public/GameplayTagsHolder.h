@@ -32,6 +32,11 @@ public:
 	FGameplayTag Attributes_Secondary_HealthRegen;
 	FGameplayTag Attributes_Secondary_ManaRegen;
 
+	FGameplayTag InputTag_LMB;
+	FGameplayTag InputTag_RMB;
+	FGameplayTag InputTag_1;
+	FGameplayTag InputTag_2;
+	FGameplayTag InputTag_3;
 protected:
 
 private:

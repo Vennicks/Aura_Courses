@@ -17,6 +17,11 @@ public:
 
 	FOnEffectApplied OnEffectAppliedDelegate;
 
+	void AddAbilities(const TArray<TSubclassOf<UGameplayAbility>>& AbilitiesToAdd);
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	void AbilityInputTagReleased(const FGameplayTag& InputTag);
+	void AbilityInputTagPressed(const FGameplayTag& InputTag);
 protected:
-	void OnEffectApplied(UAbilitySystemComponent* AbilitySystem, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
+	UFUNCTION(Client, Reliable)
+	void Client_OnEffectApplied(UAbilitySystemComponent* AbilitySystem, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 };
