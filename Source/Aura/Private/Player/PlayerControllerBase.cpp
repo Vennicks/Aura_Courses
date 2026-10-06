@@ -10,8 +10,10 @@
 #include "NavigationSystem.h"
 #include "AbilitySystem/AbilitySystemComponentBase.h"
 #include "Components/SplineComponent.h"
+#include "GameFramework/Character.h"
 #include "Inputs/GameInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 #pragma region Defaults
 APlayerControllerBase::APlayerControllerBase()
@@ -64,6 +66,10 @@ void APlayerControllerBase::SetupInputComponent()
 
 	UGameInputComponent* GameInputComponent = CastChecked<UGameInputComponent>(InputComponent);
 	GameInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerControllerBase::Move);
+	GameInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &APlayerControllerBase::ShiftPressed);
+	GameInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &APlayerControllerBase::ShiftReleased);
+	GameInputComponent->BindAction(ShiftAction, ETriggerEvent::Canceled, this, &APlayerControllerBase::ShiftReleased);
+	
 	GameInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
@@ -78,7 +84,7 @@ void APlayerControllerBase::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void APlayerControllerBase::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	if (!InputTag.MatchesTagExact(FGameplayTagsHolder::Get().InputTag_LMB) || bTargeting)
+	if (!InputTag.MatchesTagExact(FGameplayTagsHolder::Get().InputTag_LMB) || bTargeting || bShiftKeyDown)
 	{
 		if (!GetASC())
 			return;
@@ -108,7 +114,7 @@ void APlayerControllerBase::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void APlayerControllerBase::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	if (!InputTag.MatchesTagExact(FGameplayTagsHolder::Get().InputTag_LMB) || bTargeting)
+	if (!InputTag.MatchesTagExact(FGameplayTagsHolder::Get().InputTag_LMB) || bTargeting || bShiftKeyDown)
 	{
 		if (!GetASC())
 			return;
@@ -168,6 +174,7 @@ void APlayerControllerBase::AutoRun()
 
 #pragma endregion
 
+#pragma region Cursor Trace
 void APlayerControllerBase::CursorTrace()
 {
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
@@ -181,4 +188,17 @@ void APlayerControllerBase::CursorTrace()
 	if (SelectedActor)
 		SelectedActor->HightlightActor();
 
+}
+#pragma endregion
+
+void APlayerControllerBase::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* Target)
+{
+	if (IsValid(Target) && DamageTextComponentClass)
+	{
+		auto DamageText = NewObject<UDamageTextComponent>(Target, DamageTextComponentClass);
+		DamageText->RegisterComponent();
+		DamageText->AttachToComponent(Target->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
+	}
 }

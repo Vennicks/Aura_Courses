@@ -6,13 +6,12 @@
 #include "GameFramework/PlayerController.h"
 #include "Interaction/EnemyInterface.h"
 #include "PlayerControllerBase.generated.h"
+
+class UDamageTextComponent;
 class USplineComponent;
 class UAbilitySystemComponentBase;
 struct FGameplayTag;
 class UInputConfig;
-/**
- * 
- */
 class UInputMappingContext;
 class UInputAction;
 class IEnemyInterface;
@@ -47,9 +46,15 @@ private:
 	UPROPERTY(EditAnywhere, Category = Input)
 	TObjectPtr<UInputAction> MoveAction = nullptr;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<UInputAction> ShiftAction = nullptr;
+
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	TObjectPtr<UInputConfig> InputConfig = nullptr;
 
+	void ShiftPressed(){bShiftKeyDown = true;}
+	void ShiftReleased(){bShiftKeyDown = false;}
+	bool bShiftKeyDown = false;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
@@ -73,8 +78,16 @@ private:
 	void AutoRun();
 #pragma endregion
 
+#pragma region Cursor Trace
 	void CursorTrace();
 	FHitResult CursorHit;
 
 	TScriptInterface<IEnemyInterface> SelectedActor = nullptr;
+#pragma endregion
+public:
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* Target);
+private:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 };

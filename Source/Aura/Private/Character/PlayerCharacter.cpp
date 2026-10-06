@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/AbilitySystemComponentBase.h"
 #include "AbilitySystem/AttributeSetBase.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/PlayerControllerBase.h"
 #include "Player/PlayerStateBase.h"

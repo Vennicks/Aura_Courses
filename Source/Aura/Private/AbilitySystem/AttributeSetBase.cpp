@@ -7,7 +7,10 @@
 #include "GameplayEffectExtension.h"
 #include "GameplayTagsHolder.h"
 #include "GameFramework/Character.h"
+#include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/PlayerControllerBase.h"
 
 UAttributeSetBase::UAttributeSetBase()
 {
@@ -64,7 +67,7 @@ void UAttributeSetBase::SetEffectProperties(const FGameplayEffectModCallbackData
 		}
 		if (Props.SourceController)
 		{
-			ACharacter* SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
+			Props.SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
 		}
 	}
 
@@ -87,11 +90,45 @@ void UAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+		UE_LOG(LogTemp, Warning, TEXT("%s Health changed to: %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
 	}
 
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
 		SetHealth(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+	}
+
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();
+		SetIncomingDamage(0);
+
+		if (LocalIncomingDamage > 0)
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+
+			if (NewHealth <= 0.f)
+			{
+				if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor))
+				{
+					CombatInterface->Die();
+				}
+			} else
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FGameplayTagsHolder::Get().Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
+
+			if (Props.SourceCharacter != Props.TargetCharacter)
+			{
+				if (APlayerControllerBase* SourcePlayerController = Cast<APlayerControllerBase>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+				{
+					SourcePlayerController->ShowDamageNumber(LocalIncomingDamage, Props.TargetCharacter);
+				}
+			}
+		}
 	}
 }
 

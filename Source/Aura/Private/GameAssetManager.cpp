@@ -3,6 +3,7 @@
 
 #include "GameAssetManager.h"
 
+#include "AbilitySystemGlobals.h"
 #include "GameplayTagsHolder.h"
 
 UGameAssetManager& UGameAssetManager::Get()
@@ -17,4 +18,5 @@ void UGameAssetManager::StartInitialLoading()
 	Super::StartInitialLoading();
 
 	FGameplayTagsHolder::InitializeNativeGameplayTags();
+	UAbilitySystemGlobals::Get().InitGlobalData();
 }

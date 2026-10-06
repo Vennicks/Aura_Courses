@@ -6,6 +6,7 @@
 #include "UI/WidgetController/UserWidgetController.h"
 #include "AttributeMenuWidgetController.generated.h"
 
+struct FGameplayTag;
 struct FGameplayAttribute;
 class UAttributeInfo;
 struct FAttributeInfoStruct;

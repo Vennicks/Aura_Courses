@@ -16,4 +16,7 @@ class AURA_API UBaseGameplayAbility : public UGameplayAbility
 public:
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	FGameplayTag StartupGameplayTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FScalableFloat Damage;
 };

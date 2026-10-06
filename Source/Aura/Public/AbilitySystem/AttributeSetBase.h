@@ -146,6 +146,12 @@ public:
 
 #pragma endregion
 
+#pragma region Meta Attributes Definition 
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+
+	ATTRIBUTE_ACCESSORS(UAttributeSetBase, IncomingDamage)
+#pragma endregion
 #pragma endregion
 
 protected:
